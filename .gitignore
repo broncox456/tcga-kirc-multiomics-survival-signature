@@ -3,8 +3,12 @@
 .Rproj.user/
 renv/library/
 renv/staging/
+
 data/raw/*
 !data/raw/.gitkeep
+
 results/*
-!results/survival/
 !results/clustering/
+!results/clustering/**
+!results/survival/
+!results/survival/**
