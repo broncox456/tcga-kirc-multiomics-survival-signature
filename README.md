@@ -1,4 +1,8 @@
-TCGA-KIRC Multi-Omics Survival Stratification
+# 🧬 TCGA-KIRC Multi-Omics Survival Stratification
+
+![Kaplan-Meier Survival](results/survival/kaplan_meier_by_cluster.png)
+
+*Kaplan-Meier survival curves showing distinct outcomes between proteomic-defined tumor subgroups.*
 
 Proteomic and transcriptomic integration reveals biologically distinct tumor subgroups in clear cell renal cell carcinoma
 
