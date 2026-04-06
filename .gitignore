@@ -12,3 +12,8 @@ results/*
 !results/clustering/**
 !results/survival/
 !results/survival/**
+
+!results/differential/
+!results/differential/**
+!results/integration/
+!results/integration/**
