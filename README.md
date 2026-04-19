@@ -1,180 +1,285 @@
-# 🧬 TCGA-KIRC Multi-Omics Survival Stratification
+
+# TCGA-KIRC Multi-Omics Survival Stratification
 
 ![Kaplan-Meier Survival](results/survival/kaplan_meier_by_cluster.png)
 
 *Kaplan-Meier survival curves showing distinct outcomes between proteomic-defined tumor subgroups.*
 
-Proteomic and transcriptomic integration reveals biologically distinct tumor subgroups in clear cell renal cell carcinoma
+---
 
-📌 Overview
+## Project Overview
 
-This project explores clear cell renal cell carcinoma (ccRCC) using a multi-omics approach integrating:
+This project explores clear cell renal cell carcinoma (ccRCC) using a multi-omics strategy integrating:
 
-Clinical survival data
-RNA-seq (transcriptomics)
-RPPA (proteomics)
+- clinical survival data
+- RNA-seq transcriptomics
+- RPPA proteomics
 
-The goal was not to build a complex pipeline for its own sake, but to answer a clinically relevant question:
+The central question was clinically and biologically relevant:
 
-Can molecular patterns derived from proteomic data identify patient subgroups with different survival outcomes, and are these patterns supported at the transcriptomic level?
+**Can proteomic tumor patterns identify patient subgroups with different survival outcomes, and are these patterns supported at the transcriptomic level?**
 
-🧠 Clinical Context
+---
 
-ccRCC is a biologically heterogeneous disease.
-Patients with similar clinical staging often show markedly different outcomes.
+## Key Findings
 
-Understanding molecular subtypes linked to prognosis is essential for:
+- Two proteomic tumor clusters were identified in the matched TCGA-KIRC cohort
+- Cluster 1 showed a higher event rate and a less favorable survival profile
+- Multi-omics integration identified concordant markers across proteomic and transcriptomic layers
+- The higher-risk subgroup was characterized by signals related to cell cycle activation, DNA damage response, apoptosis regulation, and metabolic adaptation
+- These findings support the existence of biologically distinct ccRCC subgroups with prognostic relevance
 
-Risk stratification
-Therapeutic decision-making
-Precision oncology
+---
 
-⚙️ Data Sources
+## Clinical Context
 
-Data were obtained from the TCGA PanCancer Atlas, including:
+Clear cell renal cell carcinoma (ccRCC) is a biologically heterogeneous malignancy.  
+Patients with similar clinical stage can experience markedly different outcomes, suggesting that standard clinicopathologic variables do not fully capture tumor behavior.
 
-RNA-seq expression data
-RPPA proteomic profiles
-Curated clinical survival outcomes (OS, OS.time)
+Multi-omics profiling offers an opportunity to define biologically meaningful tumor subgroups linked to prognosis and potentially relevant therapeutic vulnerabilities.
 
-Final cohort:
+---
 
-537 patients (clinical)
-475 patients with complete multi-omics data
+## Data Sources
 
-🔬 Methodology
+Data were obtained from the TCGA PanCancer Atlas and filtered to kidney renal clear cell carcinoma (KIRC):
 
-1. Data Preparation
-Extraction of KIRC samples from PanCancer dataset
-Harmonization of patient identifiers across datasets
-Construction of matched multi-omics cohort
-2. Proteomic Analysis (RPPA)
-Patient-level aggregation
-Missing value imputation (median)
-Variance filtering
-PCA for dimensionality reduction
-3. Patient Clustering
-K-means clustering (k = 2) on PCA components
-Identification of two proteomic subgroups
-4. Survival Analysis
-Kaplan–Meier survival curves
-Comparison of overall survival between clusters
-5. Differential Expression Analysis
-Wilcoxon rank-sum test (RPPA and RNA)
-FDR correction
-Identification of top features per cluster
-6. Multi-Omics Integration
-Mapping proteins to gene symbols
-Cross-layer concordance analysis
-Identification of markers consistently deregulated at both protein and RNA levels
+- RNA-seq expression data
+- RPPA proteomic profiles
+- curated clinical survival data
 
-📊 Key Results
+### Final cohort
 
-🔹 Patient Stratification
+- 537 patients with clinical data
+- 475 patients with matched multi-omics data
 
-Two proteomic clusters were identified:
+---
 
-Cluster 1: 86 patients
-Cluster 2: 389 patients
-🔹 Survival Differences
+## Study Design
 
-Cluster 1 showed a higher event rate, suggesting worse prognosis:
+This project followed a proteomics-first stratification strategy:
 
-Cluster 1 → ~39% events
-Cluster 2 → ~34% events
+1. extract KIRC samples from PanCancer resources
+2. harmonize identifiers across clinical, RNA-seq, and RPPA datasets
+3. construct a matched multi-omics cohort
+4. identify proteomic patient subgroups using PCA and K-means clustering
+5. compare survival outcomes between clusters
+6. characterize cluster-specific proteomic and transcriptomic differences
+7. identify concordant cross-layer markers
 
-Although moderate, the difference is consistent and biologically meaningful.
+---
 
-🔹 Multi-Omics Concordance
+## Methods
 
-A set of 17 concordant markers was identified across proteomic and transcriptomic layers.
+### Proteomic Stratification
 
-Key pathways enriched in the high-risk group:
+- median imputation of missing RPPA values
+- variance filtering
+- principal component analysis (PCA)
+- K-means clustering on PCA-derived features
 
-🧬 Cell Cycle Activation
-CCNE1 (Cyclin E1)
-CCNB1 (Cyclin B1)
-🧬 DNA Damage Response
-CHEK2
-RAD51 (proteomic layer)
-🧬 Apoptosis Regulation
-BAK1
-BCL2L1 (BCL-XL)
-DIABLO (SMAC)
-🧬 Growth & Metabolism
-IGFBP2
-ASNS
-TFRC
+### Survival Analysis
 
-🧠 Biological Interpretation
+- Kaplan-Meier survival analysis by cluster
+- event comparison across proteomic-defined groups
 
-The high-risk cluster is characterized by:
+### Differential Analysis
 
-Increased proliferative signaling
-Enhanced DNA repair activity
-Dysregulated apoptosis
-Metabolic adaptation
+- RPPA differential analysis between clusters
+- RNA-seq differential analysis between clusters
+- false discovery rate correction
 
-This profile is consistent with a more aggressive tumor phenotype, providing a mechanistic explanation for the observed survival differences.
+### Multi-Omics Integration
 
-🧾 Key Takeaway
+- mapping of proteins to gene symbols
+- cross-layer concordance analysis
+- identification of markers showing consistent directionality across omics layers
 
-Multi-omics integration of TCGA-KIRC reveals a biologically distinct tumor subgroup characterized by coordinated activation of cell cycle, DNA damage response, and apoptosis pathways, associated with worse survival outcomes.
+---
 
-📁 Project Structure
+## Results
 
-scripts/
-  01_download_tcga_data.R
-  02_clean_clinical_survival.R
-  03_build_rnaseq_matrix.R
-  04_match_multiomics_cohort.R
-  05_rppa_pca_clustering.R
-  08_survival_by_cluster.R
-  09_rppa_differential_analysis.R
-  10_rnaseq_differential_by_cluster.R
-  11_multiomics_integration.R
+### Proteomic Clustering
 
-data/
-  raw/
-  processed/
+Two major proteomic clusters were identified:
 
-results/
-  clustering/
-  survival/
-  differential/
-  integration/
+- Cluster 1: 86 patients
+- Cluster 2: 389 patients
 
-🧪 Reproducibility
+This suggests the presence of a smaller but biologically distinct subgroup within ccRCC.
 
-All analyses were performed using:
+### Survival Differences
 
-R (4.5.x)
-Packages:
+Cluster 1 showed a higher event rate and a less favorable survival pattern:
+
+- Cluster 1: ~39% events
+- Cluster 2: ~34% events
+
+Although moderate, this difference supports the clinical relevance of proteomic subgrouping.
+
+### Multi-Omics Concordance
+
+A set of concordant markers was identified across RPPA and RNA-seq layers.
+
+Representative signals in the higher-risk subgroup included:
+
+#### Cell cycle activation
+- CCNE1
+- CCNB1
+
+#### DNA damage response
+- CHEK2
+- RAD51
+
+#### Apoptosis regulation
+- BAK1
+- BCL2L1
+- DIABLO
+
+#### Growth and metabolism
+- IGFBP2
+- ASNS
+- TFRC
+
+### Biological Interpretation
+
+The higher-risk cluster showed a molecular profile consistent with:
+
+- increased proliferative signaling
+- enhanced DNA repair activity
+- dysregulated apoptosis
+- metabolic adaptation
+
+Together, these features support a more aggressive tumor phenotype and provide a mechanistic explanation for the observed survival differences.
+
+---
+
+## Key Output Files
+
+### Clinical
+- `results/clinical/clinical_summary.tsv`
+- `results/clinical/stage_distribution.tsv`
+- `results/clinical/grade_distribution.tsv`
+
+### Clustering
+- `results/clustering/rppa_cluster_sizes.tsv`
+- `results/clustering/rppa_pca_clusters.tsv`
+- `results/clustering/rppa_pca_clusters.png`
+
+### Survival
+- `results/survival/kaplan_meier_by_cluster.png`
+- `results/survival/survival_cluster_counts.tsv`
+
+### Differential
+- `results/differential/rppa_differential.tsv`
+- `results/differential/rnaseq_differential.tsv`
+- `results/differential/top_cluster1_genes.tsv`
+- `results/differential/top_cluster2_genes.tsv`
+- `results/differential/top_cluster1_proteins.tsv`
+- `results/differential/top_cluster2_proteins.tsv`
+
+### Integration
+- `results/integration/multiomics_concordance.tsv`
+- `results/integration/top_concordant_cluster1.tsv`
+- `results/integration/multiomics_coverage.tsv`
+
+---
+
+## Why This Project Matters
+
+This repository demonstrates:
+
+- real multi-omics integration using public cancer data
+- clinically interpretable subgroup discovery
+- survival-oriented translational analysis
+- cross-layer validation between proteomic and transcriptomic findings
+- a structured workflow relevant to precision oncology and kidney cancer research
+
+---
+
+## Project Structure
+
+```text
+.
+├── data/
+│   ├── raw/
+│   ├── metadata/
+│   └── processed/
+├── docs/
+├── results/
+│   ├── clinical/
+│   ├── clustering/
+│   ├── differential/
+│   ├── enrichment/
+│   ├── integration/
+│   ├── proteomics/
+│   ├── rnaseq/
+│   └── survival/
+├── scripts/
+│   ├── 01_download_tcga_data.R
+│   ├── 02_prepare_pancan_data.R
+│   ├── 03_prepare_clinical_data.R
+│   ├── 04_prepare_rnaseq_data.R
+│   ├── 05_clean_clinical_survival.R
+│   ├── 06_build_rnaseq_matrix.R
+│   ├── 07_match_multiomics_cohort.R
+│   ├── 08_survival_by_cluster.R
+│   ├── 09_rppa_differential_analysis.R
+│   ├── 10_rnaseq_differential_by_cluster.R
+│   └── 11_multiomics_integration.R
+└── README.md
+
+## Reproducibility :
+
+Requirements
+
+This project was developed in R.
+
+Core packages used include:
+
 dplyr
 readr
 ggplot2
 survival
+survminer
+stats
 
-Each step is modular and reproducible via standalone scripts.
+## Execution Order :
 
-Project Value
+-source("scripts/01_download_tcga_data.R")
+-source("scripts/02_prepare_pancan_data.R")
+-source("scripts/03_prepare_clinical_data.R")
+-source("scripts/04_prepare_rnaseq_data.R")
+-source("scripts/05_clean_clinical_survival.R")
+-source("scripts/06_build_rnaseq_matrix.R")
+-source("scripts/07_match_multiomics_cohort.R")
+-source("scripts/08_survival_by_cluster.R")
+-source("scripts/09_rppa_differential_analysis.R")
+-source("scripts/10_rnaseq_differential_by_cluster.R")
+-source("scripts/11_multiomics_integration.R")
 
-This project demonstrates:
+## Main deliverables : 
 
-Real multi-omics integration (not simulated)
-Clinically meaningful survival analysis
-Cross-layer biological validation
-Structured and reproducible workflow
+proteomic cluster definition
+Kaplan-Meier survival comparison
+differential RPPA and RNA-seq results
+concordant multi-omics markers linked to prognosis
 
-👨‍⚕️ Author
+## Limitations : 
+
+no external validation cohort
+survival differences are moderate rather than extreme
+no mutation or copy-number layer included
+findings remain hypothesis-generating without independent replication
+
+## Future Directions :
+
+pathway enrichment analysis for cluster-specific markers
+external validation in independent ccRCC cohorts
+integration with mutation and copy-number data
+development of prognostic multi-marker scores
+
+## Author
 
 Cristian Arias, MD
-Nephrologist | Healthcare Data Scientist | Bioinformatics 
-
-
-Future Directions
-
-Pathway enrichment analysis (GO / KEGG)
-External validation cohorts
-Integration with mutational data
-Development of prognostic risk scores
+Nephrologist | Healthcare Data Scientist | Bioinformatics
