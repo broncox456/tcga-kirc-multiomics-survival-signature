@@ -17,3 +17,4 @@ results/*
 !results/differential/**
 !results/integration/
 !results/integration/**
+README_backup*
